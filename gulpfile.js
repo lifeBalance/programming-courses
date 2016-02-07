@@ -9,16 +9,18 @@ var babelify    = require('babelify');
 var source      = require('vinyl-source-stream');
 var buffer      = require('vinyl-buffer');
 var sourcemaps  = require('gulp-sourcemaps');
+var sass        = require('gulp-sass');
+var autoprefixer = require('gulp-autoprefixer');
 
 var config = {
   port: 8080,
   devBaseUrl: 'http://localhost',
   paths: {
-    html:       './src/*.html',
-    entryPoint: './src/js/main.jsx',
-    jsSources:  './src/js/**/*.jsx',
-    dist:       './dist',
-    src:        './src'
+    entryPoint:   './src/js/main.jsx',
+    jsSources:    './src/js/**/*.jsx',
+    sassSources:  './src/sass/**/*.scss',
+    btstrpFonts:  './node_modules/bootstrap-sass/assets/fonts/bootstrap/**.*',
+    public:       './dist/public'
   }
 }
 
@@ -27,11 +29,13 @@ gulp.task('serve', function() {
     open: false,
     logFileChanges: false,
     server: {
-      baseDir: "./dist",
+      baseDir: config.paths.public,
     }
   });
 
-  gulp.watch("dist/*.html").on('change', browserSync.reload);
+  gulp.watch(config.paths.sassSources, ['styles']);
+  gulp.watch(config.paths.public + '/css/*.css').on('change', browserSync.reload);
+  gulp.watch(config.paths.public + '/*.html').on('change', browserSync.reload);
 });
 
 
@@ -54,6 +58,7 @@ gulp.task('scripts', function () {
     poll: false
   });
 
+
   function bundle() {
     return bundler
       .bundle()
@@ -65,7 +70,7 @@ gulp.task('scripts', function () {
       .pipe(buffer())
       .pipe(sourcemaps.init({loadMaps: true}))
       .pipe(sourcemaps.write('../maps'))
-      .pipe(gulp.dest(config.paths.dist + '/js'))
+      .pipe(gulp.dest(config.paths.public + '/js'))
       .pipe(browserSync.stream());
   }
 
@@ -80,5 +85,22 @@ gulp.task('scripts', function () {
   });
 });
 
+var autoprefixerOptions = {
+  browsers: ['last 2 versions', '> 5%', 'Firefox ESR']
+};
 
-gulp.task('default', ['scripts', 'serve']);
+gulp.task('styles', function () {
+ return gulp.src(config.paths.sassSources)
+  .pipe(sourcemaps.init())
+  .pipe(autoprefixer(autoprefixerOptions))
+  .pipe(sass().on('error', sass.logError))
+  .pipe(sourcemaps.write('../maps'))
+  .pipe(gulp.dest(config.paths.public + '/css'));
+});
+
+gulp.task('fonts', function() { 
+  return gulp.src(config.paths.btstrpFonts)
+    .pipe(gulp.dest(config.paths.public + '/fonts/bootstrap')); 
+});
+
+gulp.task('default', ['scripts', 'styles', 'fonts', 'serve']);

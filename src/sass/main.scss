@@ -1,0 +1,8 @@
+@import '../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap';
+@import '../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/theme';
+
+$black: #333333;
+
+body {
+  background-color: $black;
+}
