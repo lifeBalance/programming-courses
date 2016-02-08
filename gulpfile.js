@@ -19,6 +19,7 @@ var config = {
     entryPoint:   './src/js/main.jsx',
     jsSources:    './src/js/**/*.jsx',
     sassSources:  './src/sass/**/*.scss',
+    images:       './src/images/*',
     btstrpFonts:  './node_modules/bootstrap-sass/assets/fonts/bootstrap/**.*',
     public:       './dist/public'
   }
@@ -36,12 +37,14 @@ gulp.task('serve', function() {
   gulp.watch(config.paths.sassSources, ['styles']);
   gulp.watch(config.paths.public + '/css/*.css').on('change', browserSync.reload);
   gulp.watch(config.paths.public + '/*.html').on('change', browserSync.reload);
+  gulp.watch(config.paths.public + '/images/*').on('change', browserSync.reload);
 });
 
 
 gulp.task('scripts', function () {
   var bundler = browserify({
     entries: [config.paths.entryPoint],
+    extensions: ['.jsx'],
     cache: {},
     packageCache: {},
     debug: true
@@ -103,4 +106,9 @@ gulp.task('fonts', function() { 
     .pipe(gulp.dest(config.paths.public + '/fonts/bootstrap')); 
 });
 
-gulp.task('default', ['scripts', 'styles', 'fonts', 'serve']);
+gulp.task('images', function() { 
+  return gulp.src(config.paths.images)
+    .pipe(gulp.dest(config.paths.public + '/images')); 
+});
+
+gulp.task('default', ['scripts', 'styles', 'fonts', 'images', 'serve']);

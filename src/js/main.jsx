@@ -2,21 +2,39 @@
 window.$ = window.jQuery = require('jquery');
 var bootstrapJS = require('bootstrap-sass'); // Bootstrap JavaScripts.
 
-var React       = require('react');
-var MyComponent = require('./components/my-comp.jsx');
-var Alert       = require('./components/alert.jsx');
+// React stuff
+var React   = require('react');
+var Home    = require('./components/home-page');
+var About   = require('./components/about/about-page');
+var Header  = require('./components/common/header');
 
+var App = React.createClass({
+  render: function () {
+    var Child;
 
-var Jumbotron = React.createClass({
-  render: function() {
+    switch (this.props.route) {
+      case 'about':
+        Child = About;
+        break;
+      default:
+        Child = Home;
+    }
+
     return (
-      <div className="jumbotron">
-        <MyComponent name="World" />
-        <p><a className="btn btn-primary btn-lg" href="#" role="button">Learn more</a></p>
-        <Alert />
+      <div>
+        <Header />
+        <Child />
       </div>
     );
   }
 });
 
-React.render(<Jumbotron name="World" />, document.getElementById('root'));
+
+// Custom-made simple router
+function render() {
+  var route = window.location.hash.substr(1);
+  React.render(<App route={route} />, document.getElementById('root'));
+}
+
+window.addEventListener('hashchange', render);
+render(); // Calling render at the beginning.

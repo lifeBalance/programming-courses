@@ -1,8 +1,11 @@
 @import '../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap';
 @import '../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/theme';
 
-$black: #333333;
+$black:  #333333;
+$white:  #fff;
+$grey:   #ccc;
+$orange: #F0AD4E;
 
 body {
-  background-color: $black;
+  background-color: $orange;
 }

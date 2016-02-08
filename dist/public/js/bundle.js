@@ -32067,52 +32067,117 @@ module.exports = warning;
 module.exports = require('./lib/React');
 
 },{"./lib/React":31}],159:[function(require,module,exports){
-"use strict";
+'use strict';
 
 var React = require('react');
 
 module.exports = React.createClass({
-  displayName: "exports",
+  displayName: 'exports',
 
   render: function render() {
     return React.createElement(
-      "div",
-      { className: "alert alert-success alert-dismissible", role: "alert" },
+      'div',
+      null,
       React.createElement(
-        "button",
-        { type: "button", className: "close", "data-dismiss": "alert", "aria-label": "Close" },
-        React.createElement(
-          "span",
-          { "aria-hidden": "true" },
-          "×"
-        )
-      ),
-      React.createElement(
-        "strong",
+        'h1',
         null,
-        "Cool!"
+        'About'
       ),
-      " Bootstrap's JavaScripts are working ;)"
+      React.createElement(
+        'p',
+        null,
+        'To build this app we have used:'
+      ),
+      React.createElement(
+        'ul',
+        null,
+        React.createElement(
+          'li',
+          null,
+          'React'
+        ),
+        React.createElement(
+          'li',
+          null,
+          'React Router'
+        ),
+        React.createElement(
+          'li',
+          null,
+          'Flux'
+        ),
+        React.createElement(
+          'li',
+          null,
+          'Node'
+        ),
+        React.createElement(
+          'li',
+          null,
+          'Gulp'
+        ),
+        React.createElement(
+          'li',
+          null,
+          'Browserify'
+        ),
+        React.createElement(
+          'li',
+          null,
+          'Bootstrap'
+        )
+      )
     );
   }
 });
 
 },{"react":158}],160:[function(require,module,exports){
-"use strict";
+'use strict';
 
 var React = require('react');
 
 module.exports = React.createClass({
-  displayName: "exports",
+  displayName: 'exports',
 
   render: function render() {
     return React.createElement(
-      "h1",
-      null,
-      React.createElement("span", { className: "glyphicon glyphicon-star", "aria-hidden": "true" }),
-      "Hello ",
-      this.props.name,
-      "!"
+      'nav',
+      { className: 'navbar navbar-default' },
+      React.createElement(
+        'div',
+        { className: 'container-fluid' },
+        React.createElement(
+          'div',
+          { className: 'navbar-header' },
+          React.createElement(
+            'a',
+            { href: '/', className: 'navbar-brand' },
+            React.createElement('img', { src: 'images/brand-logo.png', alt: 'Brand', height: '22px' })
+          )
+        ),
+        React.createElement(
+          'ul',
+          { className: 'nav navbar-nav' },
+          React.createElement(
+            'li',
+            null,
+            React.createElement(
+              'a',
+              { href: '/#' },
+              'Home'
+            )
+          ),
+          React.createElement(
+            'li',
+            null,
+            React.createElement(
+              'a',
+              { href: '/#about' },
+              'About'
+            )
+          )
+        )
+      )
     );
   }
 });
@@ -32120,39 +32185,75 @@ module.exports = React.createClass({
 },{"react":158}],161:[function(require,module,exports){
 'use strict';
 
-// Bootstrap
-window.$ = window.jQuery = require('jquery');
-var bootstrapJS = require('bootstrap-sass'); // Bootstrap JavaScripts.
-
 var React = require('react');
-var MyComponent = require('./components/my-comp.jsx');
-var Alert = require('./components/alert.jsx');
 
-var Jumbotron = React.createClass({
-  displayName: 'Jumbotron',
+module.exports = React.createClass({
+  displayName: 'exports',
 
   render: function render() {
     return React.createElement(
       'div',
       { className: 'jumbotron' },
-      React.createElement(MyComponent, { name: 'World' }),
+      React.createElement(
+        'h1',
+        null,
+        'Programming Courses Administration'
+      ),
       React.createElement(
         'p',
         null,
-        React.createElement(
-          'a',
-          { className: 'btn btn-primary btn-lg', href: '#', role: 'button' },
-          'Learn more'
-        )
-      ),
-      React.createElement(Alert, null)
+        'Reac, React-router and Flux'
+      )
     );
   }
 });
 
-React.render(React.createElement(Jumbotron, { name: 'World' }), document.getElementById('root'));
+},{"react":158}],162:[function(require,module,exports){
+'use strict';
 
-},{"./components/alert.jsx":159,"./components/my-comp.jsx":160,"bootstrap-sass":1,"jquery":2,"react":158}]},{},[161])
+// Bootstrap
+window.$ = window.jQuery = require('jquery');
+var bootstrapJS = require('bootstrap-sass'); // Bootstrap JavaScripts.
+
+// React stuff
+var React = require('react');
+var Home = require('./components/home-page');
+var About = require('./components/about/about-page');
+var Header = require('./components/common/header');
+
+var App = React.createClass({
+  displayName: 'App',
+
+  render: function render() {
+    var Child;
+
+    switch (this.props.route) {
+      case 'about':
+        Child = About;
+        break;
+      default:
+        Child = Home;
+    }
+
+    return React.createElement(
+      'div',
+      null,
+      React.createElement(Header, null),
+      React.createElement(Child, null)
+    );
+  }
+});
+
+// Custom-made simple router
+function render() {
+  var route = window.location.hash.substr(1);
+  React.render(React.createElement(App, { route: route }), document.getElementById('root'));
+}
+
+window.addEventListener('hashchange', render);
+render(); // Calling render at the beginning.
+
+},{"./components/about/about-page":159,"./components/common/header":160,"./components/home-page":161,"bootstrap-sass":1,"jquery":2,"react":158}]},{},[162])
 
 
 //# sourceMappingURL=../maps/bundle.js.map
