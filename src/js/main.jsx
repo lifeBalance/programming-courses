@@ -1,44 +1,11 @@
-// Bootstrap
-window.$ = window.jQuery = require('jquery');
-var bootstrapJS = require('bootstrap-sass'); // Bootstrap JavaScripts.
-
-// React stuff
 var React   = require('react');
-var Home    = require('./components/home-page');
-var About   = require('./components/about/about-page');
-var Header  = require('./components/common/header');
-var Authors = require('./components/authors/authors-page');
 
-var App = React.createClass({
-  render: function () {
-    var Child;
+var Router  = require('react-router');
+var routes  = require('./routes');
 
-    switch (this.props.route) {
-      case 'about':
-        Child = About;
-        break;
-      case 'authors':
-        Child = Authors;
-        break;
-      default:
-        Child = Home;
-    }
-
-    return (
-      <div>
-        <Header />
-        <Child />
-      </div>
-    );
-  }
+// Router.HistoryLocation enables clean urls using HTML5 history API.
+// If used, remember to redirect all server-side requests to index.html,
+// so they're handled by the client-side router.
+Router.run(routes, function (Handler) {
+  React.render(<Handler/>, document.getElementById('root'));
 });
-
-
-// Custom-made simple router
-function render() {
-  var route = window.location.hash.substr(1);
-  React.render(<App route={route} />, document.getElementById('root'));
-}
-
-window.addEventListener('hashchange', render);
-render(); // Calling render at the beginning.
