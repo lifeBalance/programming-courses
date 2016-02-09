@@ -44560,10 +44560,76 @@ module.exports = React.createClass({
 });
 
 },{"react":159}],163:[function(require,module,exports){
+"use strict";
+
+var React = require('react');
+
+module.exports = React.createClass({
+  displayName: "exports",
+
+  propTypes: {
+    authors: React.PropTypes.array.isRequired
+  },
+  render: function render() {
+    var createAuthorRow = function createAuthorRow(author) {
+      return React.createElement(
+        "tr",
+        { key: author.id },
+        React.createElement(
+          "td",
+          null,
+          React.createElement(
+            "a",
+            { href: "/#authors/" + author.id },
+            author.id
+          )
+        ),
+        React.createElement(
+          "td",
+          null,
+          author.firstName,
+          " ",
+          author.lastName
+        )
+      );
+    };
+
+    return React.createElement(
+      "div",
+      null,
+      React.createElement(
+        "table",
+        { className: "table" },
+        React.createElement(
+          "thead",
+          null,
+          React.createElement(
+            "th",
+            null,
+            "ID"
+          ),
+          React.createElement(
+            "th",
+            null,
+            "Name"
+          )
+        ),
+        React.createElement(
+          "tbody",
+          null,
+          this.props.authors.map(createAuthorRow, this)
+        )
+      )
+    );
+  }
+});
+
+},{"react":159}],164:[function(require,module,exports){
 'use strict';
 
 var React = require('react');
 var AuthorApi = require('../../api/author-api');
+var AuthorList = require('./authors-list');
 
 module.exports = React.createClass({
   displayName: 'exports',
@@ -44573,70 +44639,26 @@ module.exports = React.createClass({
       authors: []
     };
   },
-  componentWillMount: function componentWillMount() {
-    // An asynchronous call to the API is enough in this case.
-    this.setState({ authors: AuthorApi.getAllAuthors() });
+  componentDidMount: function componentDidMount() {
+    if (this.isMounted()) {
+      this.setState({ authors: AuthorApi.getAllAuthors() });
+    }
   },
   render: function render() {
-    var createAuthorRow = function createAuthorRow(author) {
-      return React.createElement(
-        'tr',
-        { key: author.id },
-        React.createElement(
-          'td',
-          null,
-          React.createElement(
-            'a',
-            { href: "/#authors/" + author.id },
-            author.id
-          )
-        ),
-        React.createElement(
-          'td',
-          null,
-          author.firstName,
-          ' ',
-          author.lastName
-        )
-      );
-    };
-
     return React.createElement(
       'div',
-      { className: '' },
+      null,
       React.createElement(
         'h1',
         null,
         'Authors'
       ),
-      React.createElement(
-        'table',
-        { className: 'table' },
-        React.createElement(
-          'thead',
-          null,
-          React.createElement(
-            'th',
-            null,
-            'ID'
-          ),
-          React.createElement(
-            'th',
-            null,
-            'Name'
-          )
-        ),
-        React.createElement(
-          'tbody',
-          null,
-          this.state.authors.map(createAuthorRow, this)
-        )
-      )
+      React.createElement(AuthorList, { authors: this.state.authors })
     );
   }
 });
 
-},{"../../api/author-api":160,"react":159}],164:[function(require,module,exports){
+},{"../../api/author-api":160,"./authors-list":163,"react":159}],165:[function(require,module,exports){
 'use strict';
 
 var React = require('react');
@@ -44696,7 +44718,7 @@ module.exports = React.createClass({
   }
 });
 
-},{"react":159}],165:[function(require,module,exports){
+},{"react":159}],166:[function(require,module,exports){
 'use strict';
 
 var React = require('react');
@@ -44722,7 +44744,7 @@ module.exports = React.createClass({
   }
 });
 
-},{"react":159}],166:[function(require,module,exports){
+},{"react":159}],167:[function(require,module,exports){
 'use strict';
 
 // Bootstrap
@@ -44771,7 +44793,7 @@ function render() {
 window.addEventListener('hashchange', render);
 render(); // Calling render at the beginning.
 
-},{"./components/about/about-page":162,"./components/authors/authors-page":163,"./components/common/header":164,"./components/home-page":165,"bootstrap-sass":1,"jquery":2,"react":159}]},{},[166])
+},{"./components/about/about-page":162,"./components/authors/authors-page":164,"./components/common/header":165,"./components/home-page":166,"bootstrap-sass":1,"jquery":2,"react":159}]},{},[167])
 
 
 //# sourceMappingURL=../maps/bundle.js.map
