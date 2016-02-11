@@ -4,12 +4,12 @@ module.exports = {
 		{
 			id: 'snoop-lion',
 			firstName: 'Snoop',
-			lastName: 'Doggy-Dog'
+			lastName: 'Doggy Dogg'
 		},
 		{
-			id: '2-pac',
-			firstName: 'Tupac',
-			lastName: 'Amaru Shakur'
+			id: 'grumpy-cat',
+			firstName: 'Grumpy',
+			lastName: 'Cat'
 		},
 		{
 			id: 'chuck-norris',

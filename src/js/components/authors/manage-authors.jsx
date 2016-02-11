@@ -1,7 +1,10 @@
 var React       = require('react');
 var Router      = require('react-router');
 var AuthorForm  = require('./author-form');
-var AuthorApi   = require('../../api/author-api');
+
+// var AuthorApi   = require('../../api/author-api');
+var AuthorActions = require('../../actions/author');
+var AuthorStore = require('../../stores/author');
 
 module.exports = React.createClass({
   mixins: [
@@ -23,6 +26,7 @@ module.exports = React.createClass({
       dirty: false
     };
   },
+
   // The change handler has to be named `handleChange` !!
   handleChange: function (event) {
     this.setState({dirty: true}); // Something has changed in the form.
@@ -36,7 +40,7 @@ module.exports = React.createClass({
     var authorId = this.props.params.id;
 
     if (authorId) {
-      this.setState({ author: AuthorApi.getAuthorById(authorId) });
+      this.setState({ author: AuthorStore.getAuthorById(authorId) });
     }
   },
 
@@ -64,7 +68,12 @@ module.exports = React.createClass({
       return; // If the form is not valid, we just return.
     }
 
-    AuthorApi.saveAuthor(this.state.author);
+    if (this.state.author.id) {
+      AuthorActions.updateAuthor(this.state.author);
+    } else {
+      AuthorActions.createAuthor(this.state.author);
+    }
+    AuthorActions.createAuthor(this.state.author);
     this.setState({dirty: false}); // The form is clean again.
 
     this.transitionTo('authors');
