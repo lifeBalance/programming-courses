@@ -28,7 +28,7 @@ var AuthorStore = objectAssign({}, EventEmitter.prototype, {
   }
 });
 
-// Registering the store with the Dispatcher
+// Registering callbacks with the Dispatcher.
 // so the store it's notified when actions occur.
 // This function is gonna get called when ANY
 // action gets dispatched.
